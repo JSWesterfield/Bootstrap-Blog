@@ -171,7 +171,7 @@
             console.log("I am currently executing the page start up");
             //event binding below. binding the 
             $("#submitButton").on("click", sabio.page.handlers.submitButton);
-            //$("#callBack").on("mousever", sabio.handlers.backButton);
+            $("#callBack").on("click", sabio.handlers.backButton);
             //mouseover version instead of 'click' event.
         }
 
@@ -204,7 +204,7 @@
         }
 
         sabio.page.handlers.submitButton = function (event) {
-            event.preventerDefault();
+            event.preventDefault();
             //this will prevent the default behavior, or the click event, stopping submission.
         	var data = sabio.page.readForm();
         	sabio.page.updateBlogContent(data);
