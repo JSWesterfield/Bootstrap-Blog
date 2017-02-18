@@ -141,7 +141,7 @@
   		<button type="submit" id="submitPost" class="btn btn-default">Submit</button>
 	</div>
 
-    <div class="blog-post col-md-6 hidden" id="postContainer">
+    <div class="blog-post col-md-6" id="postContainer">
       	<h2 class="blog-post-title">Blog Title</h2>
          <p class="blog-post-meta">by <a href="#" class="blog-post-email">Author Email</a></p>
 
@@ -171,6 +171,8 @@
             console.log("I am currently executing the page start up");
             //event binding below. binding the 
             $("#submitButton").on("click", sabio.page.handlers.submitButton);
+            //$("#callBack").on("mousever", sabio.handlers.backButton);
+            //mouseover version instead of 'click' event.
         }
 
         //returning 
@@ -191,10 +193,10 @@
 
         //updateBlogContent 
         sabio.page.updateBlogContent = function(data) {
-        	$("blog-post-title").text(data.title);
-        	$("blog-post-email").text(data.email);
-        	$("blog-post-content").text(data.content);
-        	$("blog-post-email").prop("href", "mailTo: " + data.email);
+        	$(".blog-post-title").text(data.title);
+        	$(".blog-post-email").text(data.email);
+        	$(".blog-post-content").text(data.content);
+        	$(".blog-post-email").prop("href", "mailTo: " + data.email);
         }
 
         sabio.page.clearForm = function() {
@@ -207,13 +209,14 @@
         	var data = sabio.page.readForm();
         	sabio.page.updateBlogContent(data);
         	sabio.page.clearForm();
-            $("#postContainer").removeClass("hidden") //jquery to hide the 'hidden' class in form tag. Also the hidden file is a property WITHIN Bootstrap.
+            $("#postContainer").removeClass("hidden"); //jquery to hide the 'hidden' class in form tag. Also the hidden file is a property WITHIN Bootstrap.
             $("#frmContainer").hide();   //this is the simple way of just hiding the form
 
         }
 
         sabio.page.handlers.backButton = function () {
-            $("postContainer").addClass("hidden"); 
+            //or is it $("#cmdBack").addClass("hidden"); 
+            $("#postContainer").addClass("hidden"); 
             $("#frmContainer").show();   
 
 
