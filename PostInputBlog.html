@@ -138,8 +138,7 @@
     	<textarea class="form-control" id="exampleTextarea" rows="5"
     	placeholder="Content"></textarea>
   	</div>
-
-  		<button type="button" id="submitPost" class="btn btn-default">Submit</button>
+  		<button type="submit" id="submitPost" class="btn btn-default">Submit</button>
 	</div>
 
     <div class="blog-post col-md-6 hidden" id="postContainer">
@@ -202,21 +201,20 @@
        		$("#form")[0].reset();	
         }
 
-        sabio.page.handlers.submitButton = function () {
+        sabio.page.handlers.submitButton = function (event) {
+            event.preventerDefault();
+            //this will prevent the default behavior, or the click event, stopping submission.
         	var data = sabio.page.readForm();
         	sabio.page.updateBlogContent(data);
         	sabio.page.clearForm();
-            $("#postContainer").removeClass("hidden") //jquery to hide the 'hidden' class in form tag
+            $("#postContainer").removeClass("hidden") //jquery to hide the 'hidden' class in form tag. Also the hidden file is a property WITHIN Bootstrap.
             $("#frmContainer").hide();   //this is the simple way of just hiding the form
 
         }
 
         sabio.page.handlers.backButton = function () {
             $("postContainer").addClass("hidden"); 
-            $("#frmContainer").show("click", );   
-
-
-    </script>
+            $("#frmContainer").show();   
 
 
     </script>
