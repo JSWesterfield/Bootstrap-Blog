@@ -142,7 +142,7 @@
   		<button type="button" id="submitPost" class="btn btn-default">Submit</button>
 	</div>
 
-    <div class="blog-post col-md-6" id="postContainer">
+    <div class="blog-post col-md-6 hidden" id="postContainer">
       	<h2 class="blog-post-title">Blog Title</h2>
          <p class="blog-post-meta">by <a href="#" class="blog-post-email">Author Email</a></p>
 
@@ -195,7 +195,7 @@
         	$("blog-post-title").text(data.title);
         	$("blog-post-email").text(data.email);
         	$("blog-post-content").text(data.content);
-        	$("blog-post-email").prop("href", "mailTo:" + data.email);
+        	$("blog-post-email").prop("href", "mailTo: " + data.email);
         }
 
         sabio.page.clearForm = function() {
@@ -206,8 +206,14 @@
         	var data = sabio.page.readForm();
         	sabio.page.updateBlogContent(data);
         	sabio.page.clearForm();
+            $("#postContainer").removeClass("hidden") //jquery to hide the 'hidden' class in form tag
+            $("#frmContainer").hide();   //this is the simple way of just hiding the form
+
         }
 
+        sabio.page.handlers.backButton = function () {
+            $("postContainer").addClass("hidden"); 
+            $("#frmContainer").show("click", );   
 
 
     </script>
