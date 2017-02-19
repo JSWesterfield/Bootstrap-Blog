@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -6,7 +5,6 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!--scale says to keep scaling according to device.-->
     <!-- Bootstrap -->
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -122,34 +120,38 @@
     <div class="container">
         <div class="row">
             <div class="col-md-6" id="frmContainer">
-                Form Removed. Please a standard Bootstrap Form here. http://getbootstrap.com/css/#forms
+                <form id="frm">
+                    <div class="form-group">
+                        <label for="title">Title</label>
+                        <input type="text" class="form-control" id="title" placeholder="Title">
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" class="form-control" id="email" placeholder="Email">
+                    </div>
+                    <div class="form-group">
+                        <label for="content">Content</label>
+                        <textarea class="form-control" id="content" placeholder="Content" rows="5"></textarea>
+                    </div>
+                    <button type="submit" id="submitPost" class="btn btn-default">Submit</button>
+                </form>
+            </div>
 
-<form>
-	<div class="form-group">
-    	<label for="title">Title</label>
-    	<input type="title" class="form-control" id="title" placeholder="Title">
-  	</div>
-  	<div class="form-group">
-    	<label for="exampleInputEmail1">Email Address</label>
-    	<input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Email">
-  	</div>
-  	<div class="form-group">
-    	<label for="exampleTextarea">Content</label>
-    	<textarea class="form-control" id="exampleTextarea" rows="5"
-    	placeholder="Content"></textarea>
-  	</div>
-  		<button type="submit" id="submitPost" class="btn btn-default">Submit</button>
-	</div>
+            <div class="blog-post col-md-6 hidden" id="postContainer">
+                <h2 class="blog-post-title">Blog Title</h2>
+                <p class="blog-post-meta">by <a href="#" class="blog-post-email">Author Email</a></p>
 
-    <div class="blog-post col-md-6" id="postContainer">
-      	<h2 class="blog-post-title">Blog Title</h2>
-         <p class="blog-post-meta">by <a href="#" class="blog-post-email">Author Email</a></p>
+                <p class="blog-post-body">This is the body of the blog post</p>
+                <button type="button" id="cmdBack" class="btn btn-default">Back</button>
+            </div>
 
-         <p class="blog-post-body">This is the body of the blog post</p>
-         <button type="button" id="cmdBack" class="btn btn-default">Back</button>
-    </div>
-</form>
-    <!-- /.container -->
+
+
+        </div>
+
+
+
+    </div><!-- /.container -->
 
     <footer class="text-center">
         <hr />
@@ -164,63 +166,52 @@
     <script src="http://sabioapi2.azurewebsites.net/scripts/sabio.js"></script>
 
     <!-- All your code goes below here-->
-
     <script type="text/javascript">
 
         sabio.page.startUp = function () {
+
             console.log("I am currently executing the page start up");
-            //event binding below. binding the 
-            $("#submitButton").on("click", sabio.page.handlers.submitButton);
-            $("#callBack").on("click", sabio.handlers.backButton);
-            //mouseover version instead of 'click' event.
+            $("#submitPost").on("click", sabio.page.handlers.submitButton);
+            $("#cmdBack").on("click", sabio.page.handlers.backButton);
         }
 
-        //returning 
         sabio.page.readForm = function () {
-            var blogTitle = $("#title").val();  //local variable inside function
-            //reading input items and sendin them inside local variables.
-
+            var blogTitle = $("#title").val();
             var blogEmail = $("#email").val();
-            var blogContext = $("#content").val(); 
+            var blogContent = $("#content").val();
             var blog = {
-                title.blogTitle
+                title: blogTitle
                 , email: blogEmail
-                , content: blogContent 
+                , content: blogContent
             };
             return blog;
-            //this returns our object. 
         }
 
-        //updateBlogContent 
-        sabio.page.updateBlogContent = function(data) {
-        	$(".blog-post-title").text(data.title);
-        	$(".blog-post-email").text(data.email);
-        	$(".blog-post-content").text(data.content);
-        	$(".blog-post-email").prop("href", "mailTo: " + data.email);
+        sabio.page.updateBlogContent = function (data) {
+            $(".blog-post-title").text(data.title);
+            $(".blog-post-email").text(data.email);
+            $(".blog-post-body").text(data.content);
+            $(".blog-post-email").prop("href", "mailto:" + data.email);
         }
 
-        sabio.page.clearForm = function() {
-       		$("#form")[0].reset();	
+        sabio.page.clearForm = function () {
+            $("#frm")[0].reset();
         }
-
+        
         sabio.page.handlers.submitButton = function (event) {
             event.preventDefault();
-            //this will prevent the default behavior, or the click event, stopping submission.
-        	var data = sabio.page.readForm();
-        	sabio.page.updateBlogContent(data);
-        	sabio.page.clearForm();
-            $("#postContainer").removeClass("hidden"); //jquery to hide the 'hidden' class in form tag. Also the hidden file is a property WITHIN Bootstrap.
-            $("#frmContainer").hide();   //this is the simple way of just hiding the form
-            console.log("submitButton function works!"); 
+            console.log(event);
+            var data = sabio.page.readForm();
+            sabio.page.updateBlogContent(data);
+            sabio.page.clearForm();
+            $("#postContainer").removeClass("hidden");
+            $("#frmContainer").hide();
         }
 
         sabio.page.handlers.backButton = function () {
-            //or is it $("#cmdBack").addClass("hidden"); <--correction if I wanted to hide 'body'
-            $("#postContainer").addClass("hidden"); 
-            $("#frmContainer").show();  
-            console.log("backButton function works!"); 
-
-
+            $("#postContainer").addClass("hidden");
+            $("#frmContainer").show();
+        }
     </script>
 </body>
 </html>
