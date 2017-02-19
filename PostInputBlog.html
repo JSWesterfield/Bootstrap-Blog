@@ -211,13 +211,14 @@
         	sabio.page.clearForm();
             $("#postContainer").removeClass("hidden"); //jquery to hide the 'hidden' class in form tag. Also the hidden file is a property WITHIN Bootstrap.
             $("#frmContainer").hide();   //this is the simple way of just hiding the form
-
+            console.log("submitButton function works!"); 
         }
 
         sabio.page.handlers.backButton = function () {
-            //or is it $("#cmdBack").addClass("hidden"); 
+            //or is it $("#cmdBack").addClass("hidden"); <--correction if I wanted to hide 'body'
             $("#postContainer").addClass("hidden"); 
-            $("#frmContainer").show();   
+            $("#frmContainer").show();  
+            console.log("backButton function works!"); 
 
 
     </script>
