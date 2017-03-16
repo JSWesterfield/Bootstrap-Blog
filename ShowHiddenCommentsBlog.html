@@ -5,21 +5,28 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    
     <!-- Bootstrap -->
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    
     <!--[if lt IE 9]>
       <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
+    <![endif] -->
     <style>
         li.active {
             font-weight: bolder;
             text-decoration: underline;
         }
-    </style>
 
+        .comment .comment {
+            margin-left: 40px;
+        }
+        /* a comment within a comment. We placed the comment within the comment indented, 40px inward.
+    </style>
+        
 </head>
 <body>
     <nav class="navbar navbar-inverse">
@@ -78,7 +85,7 @@
         <div class="row">
             <div class="blog-post">
                 <h2 class="blog-post-title">The Best Blog Post Title</h2>
-                <p class="blog-post-meta">by <a href="#">gregorio@sabio.la</a></p>
+                <p class="blog-post-meta">by <a href="#">jecobwesterfield@gmail.com</a></p>
 
                 <div id="lipsum">
                     <p>
@@ -87,6 +94,25 @@
 
                 </div>
             </div>
+
+<form id="#frm">
+  <div class="form-group">
+    <label for="title">Title</label>
+    <textarea class="form-control" id="title" rows="1" placeholder="Title"></textarea>
+  </div>
+  <div class="form-group">
+    <label for="by">By</label>
+    <textarea class="form-control" id="by" rows="1" placeholder="By"></textarea>
+  </div>
+  <div class="form-group">
+    <label for="content">Content</label>
+    <textarea class="form-control" id="content" rows="5" placeholder="Input Content" ></textarea>
+  </div>
+  <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+
+
+<!-- COMMENT SECTION STARTS HERE -->
 
         </div>
         <div class="row commentsContainer">
@@ -133,7 +159,7 @@
                     </div>
                     <div class="comment-content media-body clearfix">
                         <h3 class="media-heading">Comment title</h3>
-                        <div class="comment-meta">By <a href="#">admin</a> | Today, 12:31</div>
+                        <div class="comment-meta">By  <a href="#">admin</a> | Today, 12:31</div>
                         <div class="comment-body">
                             <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo </p>
                             <a href="blog-post.html" class="btn btn-gray more pull-right"><i class="fa fa-reply"></i> Reply</a>
@@ -210,26 +236,75 @@
     <script type="text/javascript">
 
         sabio.page.startUp = function () {
-
             console.log("I have a name and can be called at will. that makes me super cool");
-
             //$("#cmdClear").on("click", sabio.page.clearMsgSpace);
             $("#showComments").on("click", sabio.page.handlers.showComments);
 
         }
 
-        sabio.page.handlers.showComments = function () {
-            $(".comments").removeClass("hidden");
-            var topOfComments = $(".comments").offset().top;
-            var animationOptions = {
-                scrollTop: topOfComments
+        // sabio.page.handlers.showComments = function () {
+        //     console.log("I run!");
+        //     $(".comments").removeClass("hidden");
+        //     var topOfComments = $(".comments").offset().top;
+        //     var animationOptions = {
+        //         scrollTop: topOfComments
+        //     };
+        //     $("html, body").animate(animationOptions, 1000);
+        // }
+
+        sabio.page.readForm = function () {
+            var commentTitle = $("#title").val();
+            var commentBy = $("#by").val();
+            var commentContent = $("#content").val();
+            var comment = {
+                title: commentTitle
+                , by: commentBy
+                , comment: commentContent
             };
-            $("html, body").animate(animationOptions, 1000);
+            return comment;
+        }
+        
+        sabio.page.handlers.submitButton = function (event) {
+            event.preventDefault();
+            var input = sabio.page.readForm();
+            sabio.page.addComment(input);
+        }
+
+        sabio.page.loadTemplate = function () {
+            var templateHTML = $("#template").html();
+            var templateDOM = $("#templateHTML");
+            return templateDOM;
+            //purpose to load the template that e ahve defined in script.html and add to jquery. 
+        }
+
+        sabio.page.addComment = function(newComment) {
+            var template = sabio.page.loadTemplate();
+            template.find(".media-heading").text(newComment.title);
+            //first approach above.
+            $(".comment-body p", template).text(newComment.content);
+            $(".comment-meta a", template).text(newComment.by);
+            $(".comments").append(template);
+            //find the class .comment-body and then go to the p tag associated with it. 
         }
 
 
+    </script>
 
-
+    <script type="text/html" id="template">
+<!-- we use this template when we want to add a new comment to our page.-->
+<!-- comment start -->
+                <div class="comment mediaclearfix">
+                    <div class="comment-avatar media-left">
+                        <img src="http://placehold.it/50x50" alt="avatar">
+                    </div>
+                    <div class="comment-content media-body">
+                        <h3 class="media-heading">Comment title</h3>
+                        <div class="comment-meta">By <a href="#">admin</a> | Today, 12:31</div>
+                        <div class="comment-body clearfix">
+                            <p >Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo </p>
+                            <a href="blog-post.html" class="btn btn-gray more pull-right"><i class="fa fa-reply"></i> Reply</a>
+                        </div>
+                    </div>
 
     </script>
 </body>
